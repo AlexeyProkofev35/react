@@ -1,7 +1,7 @@
-
+//Установил material-ui
 import React { useState } from 'react';
 
-function MessageList ({name}) {
+function Messageli ({name}) {
   //входные данные для компонента
 const [state, setState] = useState(intitialState: [
   
