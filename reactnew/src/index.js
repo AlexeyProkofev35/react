@@ -1,7 +1,8 @@
-// Продолжил изучать react-redux
-// Узнал об action creators и научился передавать в стор данные из компонентов
-// Научился хранить данные в нескольких редьюсерах и использовать combineReducers
-// Познакомился с connect
+// Познакомился с redux middlewares
+// Познакомился с одной из самых популярных библиотек для middlewares 
+// Рассмотрел альтернативы redux-thunk - redux-saga и redux-observable
+// Познакомился с библиотекой redux-persist
+// Научился сохранять данные из стора на стороне клиента
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
