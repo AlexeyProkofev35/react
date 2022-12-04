@@ -1,9 +1,6 @@
-// Установил material-ui
-// Познакомился с использованием children и паттерном render props
-// Узнал, как работает роутинг в приложениях на React
-// Научился использовать react-router-dom для настройки роутинга в приложении
-// Узнал об использовании URL-параметров
-// Познакомился с хуками useMatch и useParams
+// Узнал о контексте в React
+// Познакомился с паттерном “Компонент высшего порядка”
+// Познакомился с Redux
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
