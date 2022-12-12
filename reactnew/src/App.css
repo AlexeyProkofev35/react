@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  min-height: 100vh;
   background-color: #788bb2;
 }
 
@@ -15,7 +14,7 @@
   }
 }
 
-.App-content {
+.App-header {
 
   min-height: 40vh;
   display: flex;
@@ -23,7 +22,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: #333;
+  color: white;
 }
 
 .App-link {

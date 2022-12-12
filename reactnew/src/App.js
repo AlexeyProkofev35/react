@@ -1,66 +1,78 @@
-import React, { useEffect } from 'react';
-import { Routes, Route } from "react-router-dom";
-import { useDispatch } from 'react-redux'
-
-import { firbaseAuth } from './services/firebase'
-
-import * as profileActions from './redux/actions/profileAC'
-
-import Navbar from './components/Navbar/Navbar'
-import PageHome from './pages/Home/PageHome'
-import PagePost from './pages/Post/PagePost'
-import PageInfo from './pages/Info/PageInfo'
-import PageCards from './pages/Cards/PageCards'
-import PageProfile from './pages/Profile/PageProfile'
-import Articles from './pages/Articles/PageArticles'
-import Signin from './pages/Signin/PageSignin'
-import Signup from './pages/Signup/PageSignup'
-
-import { PrivateRoute } from './components/routes/PrivateRoute'
-
+import { useEffect, useContext } from 'react';
+import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux'
+
+import Form from './components/Form/Form';
+import List from './components/List/List';
+
+import { GlobalContext } from './context/GlobalContext'
+import { WithClasses } from '../src/HOC/WithClasses'
+
+import style from './AppStyle.module.css'
+
+const MessageListWithClasses = WithClasses(List)
 
 function App () {
-  const dispatch = useDispatch();
+  const { title } = useContext(GlobalContext)
+
+  const inputs = useSelector((store) => store.postInputs)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    const unsubcribe = firbaseAuth.onAuthStateChanged((user) => {
-      if (user) {
-        dispatch(profileActions.auth(true))
-      } else {
-        dispatch(profileActions.auth(false))
-      }
-    })
+    // axios.get('http://localhost:3001/posts')
+    //   .then((postFromServer) => {
+    //     console.log(postFromServer)
+    //     if (postFromServer.data.allPosts.length) {
+    //       console.log(postFromServer.data.allPosts)
+    //       const posts = postFromServer.data.allPosts
+    //       // setItems(postFromServer.data.allPosts)
+    //       dispatch({ type: 'SET_ALL_POSTS', payload: posts })
+    //     }
+    //   })
+  }, [])
 
-    return unsubcribe
-  }, [dispatch])
+  const handleInputs = (event) => {
+    dispatch({ type: 'POST_TYPING', payload: { [event.target.name]: event.target.value } })
+  }
 
-  console.log('App');
+  const handlerForm = (event) => {
+    event.preventDefault()
+    console.log('Submit form')
+    // axios.post('http://localhost:3001/posts', {
+    //   myId: Math.round(Math.random() * 99),
+    //   title: inputs.title,
+    //   text: inputs.text,
+    //   likes: 0,
+    // }).then((newPost) => {
+    //   console.log('NEW-POST', newPost.data.post)
+    //   console.log('12313123', newPost.data.post)
+    //   dispatch({ type: 'SET_POST', payload: newPost.data.post })
+    // });
+    const dataFromForm = {
+      myId: Math.round(Math.random() * 99),
+      title: inputs.title,
+      text: inputs.text,
+      likes: 0,
+    }
+    dispatch({ type: 'SET_POST', payload: dataFromForm })
+    dispatch({ type: 'POST_CLEAR_INPUTS', payload: { title: '', text: '' } })
+  }
 
   return (
     <div className="App">
       <header className="App-header">
-        <Navbar />
+        <img src={logo} className="App-logo" alt="logo" />
+        <Form handlerForm={handlerForm} handleInputs={handleInputs} inputs={inputs} />
       </header>
-      <section className="list App-content">
-        <Routes>
-          <Route path="/" element={<PageHome />} />
-          <Route path="form" element={<PagePost />} />
-          <Route path="posts">
-            <Route path="list" element={<PageCards />} />
-            <Route path=":myId" element={<PageInfo />} />
-          </Route>
-          <Route
-            path="profile"
-            element={<PrivateRoute component={<PageProfile />} />}
-          />
-          <Route path="articles" element={<Articles />} />
-          <Route path="signin" element={<Signin />} />
-          <Route path="signup" element={<Signup />} />
-
-          <Route path="*" element={<h2>404 Page not found</h2>} />
-        </Routes>
+      <section>
+        <div className="container">
+          {/* <List title={title} items={items} /> */}
+          <MessageListWithClasses title={title} classes={style.border} />
+        </div>
       </section>
+
     </div>
   );
 }

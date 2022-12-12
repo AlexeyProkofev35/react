@@ -1,47 +1,22 @@
-import React, {memo, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { onValue } from "firebase/database";
+import React from 'react'
 
-import { postsRef } from '../../services/firebase'
+import { useSelector} from 'react-redux'
 
 import Item from '../Item/Item'
 
-const List = () => {
-  // const posts = useSelector(store => store.posts)
-  const [posts, setPosts] = useState([])
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    const unsubscribe = onValue(postsRef, (snapshot) => {
-      setLoading(true)
-      const data = snapshot.val()
-      console.log('data', data)
-      if (data) {
-        const newPosts = Object.entries(data).map((item) => ({
-          id: item[0],
-          ...item[1]
-        }))
-        setPosts(newPosts)
-      }
-      setLoading(false)
-
-    })
-
-    return unsubscribe
-  }, [])
-
+export default function List({title}) {
+  const posts = useSelector((store) => store.posts)
+  // console.log(posts)
   return (
     <div>
+      <h1>{title}</h1>
       <div className="row justify-content-center">
         {
-          posts.map((item) =>
-            <Item item={item} key={item.id} />
+          posts.map((post) =>
+            <Item key={post.myId} item={post} />
           )
         }
       </div>
-      {loading && <p>Loading......</p>}
     </div>
   )
 }
-
-export default memo(List);
