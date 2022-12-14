@@ -1,45 +1,33 @@
-import {createContext, useState} from 'react'
+import React, { createContext, useState, useCallback, useMemo } from 'react';
 
-import axios from 'axios'
+import axios from 'axios';
 
-export const GlobalContext= createContext()
+export const GlobalContext = createContext();
 
-export const GlobalProvider = ({children}) => {
+export const GlobalProvider = ({ children }) => {
 
   const title = 'My posts'
 
   const [items, setItems] = useState([]);
-  const [inputs, setInputs] = useState({ title: '', text: '' });
 
-  const handlerForm = (event) => {
-    event.preventDefault()
-    console.log('Submit form')
-    axios.post('http://localhost:3001/posts', {
-      myId: Math.round(Math.random() * 99),
-      title: inputs.title,
-      text: inputs.text,
-      likes: 0,
-    }).then((newPost) => {
-      console.log('NEW-POST', newPost.data.post)
-      const { myId, title, text, likes } = newPost.data.post
-      setItems(prev => [...prev, { myId, title, text, likes }])
-    });
+  const handlerDelete = useCallback((myId) => {
+    axios.post('http://localhost:3001/delete', { myId })
+      .then(data => console.log(data))
+    setItems(items.filter((item) => item.myId !== myId))
+  }, [items])
 
-    setInputs({ title: '', text: '' })
-  }
+  const addLike = useCallback((myId) => {
+    axios.patch('http://localhost:3001/posts', { myId })
+      .then(data => console.log('data LIKE', data))
+    setItems(items.filter((item) => item.myId === myId ? item.likes += 1 : item))
+  }, [items])
 
-  const handleInputs = (event) => {
-    console.log(event.target.name)
-    setInputs(prev => (
-      {
-        ...prev,
-        [event.target.name]: event.target.value
-      }
-    ))
-  }
+  const random = useMemo(() => Math.random() * 7, [items]);
 
   return (
-    <GlobalContext.Provider value={{title, items, inputs, handlerForm, handleInputs, setItems}} >
+    <GlobalContext.Provider value={
+      { title, items, setItems, handlerDelete, addLike, random }
+    }>
       {children}
     </GlobalContext.Provider>
   )

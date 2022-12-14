@@ -1,22 +1,22 @@
-import React from 'react'
-
-import { useSelector} from 'react-redux'
+import React, {memo} from 'react'
+import { useSelector } from 'react-redux'
 
 import Item from '../Item/Item'
 
-export default function List({title}) {
-  const posts = useSelector((store) => store.posts)
-  // console.log(posts)
+const List = () => {
+  const posts = useSelector(store => store.posts)
+
   return (
     <div>
-      <h1>{title}</h1>
       <div className="row justify-content-center">
         {
-          posts.map((post) =>
-            <Item key={post.myId} item={post} />
+          posts.map((item, index) =>
+            <Item item={item} key={index} />
           )
         }
       </div>
     </div>
   )
 }
+
+export default memo(List);

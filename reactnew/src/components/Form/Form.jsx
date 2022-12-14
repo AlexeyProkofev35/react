@@ -13,7 +13,7 @@ export default function Form({handlerForm, handleInputs, inputs}) {
             id="exampleInputEmail1"
             name='title'
             onChange={handleInputs}
-            value={inputs.title}
+            value={inputs.title ?? ''}
             aria-describedby="emailHelp" 
           />
           <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
@@ -25,20 +25,28 @@ export default function Form({handlerForm, handleInputs, inputs}) {
             name="text"
             className="form-control"
             onChange={handleInputs}
-            value={inputs.text}
+            value={inputs.text ?? ''}
             id="exampleInputPassword1" 
           />
         </div>
         <div className="mb-3 form-check">
           <input 
-            type="checkbox" 
-            className="form-check-input" 
             id="exampleCheck1" 
+            name="checkbox"
+            type="checkbox" 
+            className="form-check-input"
+            onChange={handleInputs}
+            defaultChecked={false}
           />
-          <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+          <label 
+            className="form-check-label" 
+            htmlFor="exampleCheck1">
+              Check me out
+          </label>
         </div>
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
+
     </div>
   )
 }
