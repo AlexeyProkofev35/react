@@ -12,18 +12,19 @@ import PageHome from './pages/Home/PageHome'
 import PagePost from './pages/Post/PagePost'
 import PageInfo from './pages/Info/PageInfo'
 import PageCards from './pages/Cards/PageCards'
+import PageProfile from './pages/Profile/PageProfile'
 
 function App () {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get('http://localhost:3001/posts')
-      .then((postFromServer) => {
-        console.log(postFromServer)
-        if (postFromServer.data.allPosts.length) {
-          dispatch(postActions.setAllPosts(postFromServer.data.allPosts))
-        }
-      })
+    // axios.get('http://localhost:3001/posts')
+    //   .then((postFromServer) => {
+    //     console.log(postFromServer)
+    //     if (postFromServer.data.allPosts.length) {
+    //       dispatch(postActions.setAllPosts(postFromServer.data.allPosts))
+    //     }
+    //   })
   }, [])
 
   console.log('App');
@@ -41,6 +42,7 @@ function App () {
             <Route path="list" element={<PageCards />} />
             <Route path=":myId" element={<PageInfo />} />
           </Route>
+          <Route path="profile" element={<PageProfile />} />
         </Routes>
       </section>
     </div>

@@ -10,6 +10,7 @@ export default function Navbar() {
       <Link to="/" className="btn btn-light">Home</Link>
       <Link to="/form" className="btn btn-light">Post</Link>
       <Link to="/posts/list" className="btn btn-light">Cards</Link>
+      <Link to="/profile" className="btn btn-light">Profile</Link>
     </div>
     </>
   )

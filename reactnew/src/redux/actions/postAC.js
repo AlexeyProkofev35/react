@@ -1,7 +1,11 @@
 import * as postTypes from '../types/postTypes'
+// import axios from 'axios'
 
 export const setAllPosts = (data) => {
-  console.log('setAllPosts', data)
+  return { type: postTypes.SET_ALL_POSTS, payload: data }
+}
+
+export const setPost = (data) => {
   return { type: postTypes.SET_POST, payload: data }
 }
 
@@ -12,6 +16,25 @@ export const removePost = ({ myId }) => {
 
 export const addLikePost = ({ myId }) => {
   return { type: 'ADD_LIKE', payload: { myId } }
+}
+
+export const submitPost = (inputs) => async (dispatch, getState) => {
+  // const newPost = await axios.post('http://localhost:3001/posts', {
+  //   myId: Math.round(Math.random() * 99),
+  //   title: inputs.title,
+  //   text: inputs.text,
+  //   likes: 0,
+  //   check: inputs.check
+  // });
+  // dispatch(setPost(newPost.data.post))
+  dispatch(setPost(
+    {
+      myId: Math.round(Math.random() * 99),
+      title: inputs.title,
+      text: inputs.text,
+      likes: 0,
+      check: inputs.check
+    }))
 }
 
 
