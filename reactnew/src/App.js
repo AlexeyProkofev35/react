@@ -1,11 +1,9 @@
 import React, { useEffect, useContext } from 'react';
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from 'react-redux'
-import './App.css';
-// import './style.scss'
-import axios from 'axios';
+import { firebaseAuth } from './services/firebase'
 
-import * as postActions from './redux/actions/postAC'
+import * as aprofileActions from './redux/actions/profileAC'
 
 import Navbar from './components/Navbar/Navbar'
 import PageHome from './pages/Home/PageHome'
@@ -13,19 +11,28 @@ import PagePost from './pages/Post/PagePost'
 import PageInfo from './pages/Info/PageInfo'
 import PageCards from './pages/Cards/PageCards'
 import PageProfile from './pages/Profile/PageProfile'
+import Articles from './pages/Articles/PageArticles'
+import Signin from './pages/Signin/PageSignin'
+import Signup from './pages/Signup/PageSignup'
+
+import { PrivateRoutes } from './components/routes/PrivateRoutes'
+
+import './App.css';
 
 function App () {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // axios.get('http://localhost:3001/posts')
-    //   .then((postFromServer) => {
-    //     console.log(postFromServer)
-    //     if (postFromServer.data.allPosts.length) {
-    //       dispatch(postActions.setAllPosts(postFromServer.data.allPosts))
-    //     }
-    //   })
-  }, [])
+    const unsubscribe = firebaseAuth.onAuthStateChanged((user) => {
+      if (user) {
+        dispatch(aprofileActions.auth(true))
+      } else {
+        dispatch(aprofileActions.auth(false))
+      }
+    })
+
+    return unsubscribe
+  }, [dispatch])
 
   console.log('App');
 
@@ -37,12 +44,22 @@ function App () {
       <section className="list App-content">
         <Routes>
           <Route path="/" element={<PageHome />} />
-          <Route path="form" element={<PagePost />} />
+          <Route path="form"
+            element={<PrivateRoutes component={<PagePost />} />}
+          />
           <Route path="posts">
             <Route path="list" element={<PageCards />} />
             <Route path=":myId" element={<PageInfo />} />
           </Route>
-          <Route path="profile" element={<PageProfile />} />
+          <Route
+            path="profile"
+            element={<PrivateRoutes component={<PageProfile />} />}
+          />
+          <Route path="articles" element={<Articles />} />
+          <Route path="signin" element={<Signin />} />
+          <Route path="signup" element={<Signup />} />
+
+          <Route path="*" element={<h2>404 Page not found</h2>} />
         </Routes>
       </section>
     </div>

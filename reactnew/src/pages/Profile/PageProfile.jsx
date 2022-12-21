@@ -6,7 +6,7 @@ import { changeName } from '../../redux/actions/profileAC'
 import Button from '../../components/ui/Button/Button'
 
 export default function Profile() {
-  const name = useSelector((store) => store.profile)
+  const {name} = useSelector((store) => store.profile)
   const dispatch = useDispatch()
   
   const [value, setValue] = useState('')

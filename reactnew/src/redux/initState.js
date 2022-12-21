@@ -1,5 +1,6 @@
 export const initState = {
   posts: [],
   postInputs: {},
-  profile: 'Biba'
+  profile: { name: 'Biba', isAuth: false },
+  articles: []
 }
